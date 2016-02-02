@@ -70,6 +70,7 @@
   margin: 22vw auto;
   border-radius: 100%;
   position: relative;
+  z-index: 10;
 }
 #content .touch svg {
   position: absolute;
@@ -80,9 +81,6 @@
   z-index: -1;
 }
 #content .touch circle {
-  cx: 50%;
-  cy: 50%;
-  r: 44%;
   stroke: #BD2121;
   stroke-width: 16px;
   fill: rgba(0, 0, 0, 0.7);
