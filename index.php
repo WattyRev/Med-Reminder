@@ -2,7 +2,7 @@
 <html>
     <head>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css?v=<?php echo uniqid();?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     </head>
