@@ -48,11 +48,11 @@ Meds.timeout = function(duration) {
 };
 
 Meds.bindButton = function() {
-    $('.touch').on('mousedown', function() {
+    $('.touch').mousedown(function() {
         $(this).addClass('touching');
         Meds.touchingTimer = setTimeout(Meds.takeMeds, 2000);
     });
-    $('.touch').on('mouseup', function() {
+    $('.touch').mouseup(function() {
         $(this).removeClass('touching');
         clearTimeout(Meds.touchingTimer);
     });
