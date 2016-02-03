@@ -2,48 +2,37 @@ var Namespace = function(){};
 var Meds = new Namespace();
 
 // Variables
-localStorage.lastTaken = localStorage.lastTaken || new Date().getTime();
-Meds.lastTaken = parseInt(localStorage.lastTaken);
+localStorage.lastTaken = localStorage.lastTaken || new Date().toDateString();
+Meds.lastTaken = localStorage.lastTaken;
 Meds.touchingTimer = null;
 Meds.takenTimer = null;
 
-Meds.runTimer = function() {
+Meds.checkStatus = function() {
     $('#content').removeClass('urgent');
-    var current = new Date().getTime();
-    var timeAgo = '';
-    var timePassed = current - Meds.lastTaken;
-    var checkNext = 0;
-    // < 1 minute
-    if (timePassed < 60 * 1000) {
-        timeAgo = 'a moment ago';
-        checkNext = 60 * 1000;
-    // < 1 hour
-    } else if (timePassed < 60 * 60 * 1000) {
-        timeAgo = 'a little bit ago';
-        checkNext = 60 * 60 * 1000;
-    // < 19 hours
-    } else if (timePassed < 19 * 60 * 60 * 1000){
-        timeAgo = 'a little while ago';
-        checkNext = 19 * 60 * 60 * 1000;
-    } else {
-        timeAgo = 'a while ago';
-        checkNext = false;
+    var current = new Date().toDateString();
+    console.log(current, Meds.lastTaken);
+    var message;
+    if (current !== Meds.lastTaken) {
+        message = 'You have not taken your meds yet today.';
         $('#content').addClass('urgent');
+    } else {
+        message = 'You have already taken your meds today.';
+        $('#content').removeClass('urgent');
     }
-
-    if (checkNext) {
-        Meds.timeout(checkNext);
-    }
-    Meds.showTime(timeAgo);
+    $('.message').text(message);
+    Meds.timeout(Meds.timeUntilMidnight());
 };
 
-Meds.showTime = function(time) {
-    $('span').text(time);
+Meds.timeUntilMidnight = function() {
+    var current = new Date();
+    var numHours = 23 - current.getHours();
+    var numMinutes = 59 - current.getMinutes();
+    return (numHours * 60 + numMinutes) * 60 * 1000;
 };
 
 Meds.timeout = function(duration) {
     Meds.takenTimer = setTimeout(function() {
-        Meds.runTimer();
+        Meds.checkStatus();
     }, duration);
 };
 
@@ -60,16 +49,15 @@ Meds.bindButton = function() {
 
 Meds.takeMeds = function() {
     $('.touch').removeClass('touching');
-    $('#content').removeClass('urgent');
-    Meds.lastTaken = new Date().getTime();
-    localStorage.lastTaken = new Date().getTime();
+    Meds.lastTaken = new Date().toDateString();
+    localStorage.lastTaken = new Date().toDateString();
     clearTimeout(Meds.takenTimer);
-    Meds.runTimer();
+    Meds.checkStatus();
 };
 
 $(function() {
     var functions = [
-        Meds.runTimer,
+        Meds.checkStatus,
         Meds.bindButton
     ];
 

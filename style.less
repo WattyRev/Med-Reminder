@@ -3,6 +3,7 @@
 @gray-darkest: #1F1F1F;
 @black: #000;
 @red: #BD2121;
+@green: #39A520;
 
 .background {
     position:fixed;
@@ -11,6 +12,8 @@
     left:0;
     right:0;
     background-color: @black;
+    height: 100%;
+    width: 100%;
     z-index:-1;
 
     svg {
@@ -44,9 +47,9 @@
     }
 }
 #content {
-    color: @red;
+    color: @green;
     font-family: 'Open Sans', sans-serif;
-    text-shadow: 0px 0px 15px @red;
+    text-shadow: 0px 0px 15px @green;
     line-height: 100%;
     margin: 0;
     font-size: 6vw;
@@ -54,24 +57,13 @@
     user-select: none;
     -webkit-user-select: none;
 
-    &.urgent .pulse {
-        position:absolute;
-        top:0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: @red;
-        animation: pulse 1s 0.1s linear infinite;
-        -webkit-animation: pulse 1s 0.1s linear infinite;
-        -webkit-transform: translateZ(0);
-    }
-    span {
-        display:block;
-        font-size: 10vw;
-        padding: 6vw;
+    .message {
+        font-size: 9vw;
+        line-height: 11vw;
+        margin-bottom: 0;
     }
     .touch {
-        display: block;
+        display: none;
         width: 31vw;
         line-height: 8vw;
         padding: 18vw 10vw;
@@ -99,6 +91,26 @@
         &.touching circle {
             stroke-dashoffset: 0;
             transition: 2s linear;
+        }
+    }
+
+    &.urgent {
+        color: @red;
+        text-shadow: 0px 0px 15px @red;
+
+        .touch {
+            display: block;
+        }
+        .pulse {
+            position:absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: @red;
+            animation: pulse 1s 0.1s linear infinite;
+            -webkit-animation: pulse 1s 0.1s linear infinite;
+            -webkit-transform: translateZ(0);
         }
     }
 }
